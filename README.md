@@ -1,53 +1,75 @@
-# bower-art-resolver
-Artifactory resolver for Bower, a custom resolver dedicated to integrate with Artifactory.
+# bower-nexus-resolver
 
-## Installation
-`npm install -g bower-art-resolver`
+# Problematic
 
-In order to use Bower with Artifactory you need 2 components (npm packages):
+For now, Nexus does not integrate Bower. Bower 1.5 offers pluggable resolvers which could make it possible.
 
-1. [bower-art-resolver](https://www.npmjs.com/package/bower-art-resolver) - A custom, pluggable Bower resolver which is dedicated to integrate with Artifactory.
-2. [bower](https://www.npmjs.com/package/bower) - Bower version 1.5.0 and above.
+The future Nexus behavior should mimic the default bower registry behavior.
 
-## Client Configuration
-Edit your ~/.bowerrc and add Artifactory Bower Resolver
+For nexus to properly integrate Bower, it needs to respond some JSON info to this URL:
+```json
+http://<domain>/nexus/content/repositories/<bower-repo>/packages/<package-name>
+```
+This JSON should be formed as (url below is a suggestion)
 ```json
 {
+  "name" : "angular",
+  "url" : "nexus://angular/angular"
+}
+```
+
+Thus bower, thanks to the resolver, can recognise it's talking to a Nexus registry.
+
+Today, Nexus doesn't implement this functionality, so we need to fake it with a fake server.
+Any server responding some JSON is fine. I recommend express.
+
+You will also need to add in the `.bowerrc` a new entry `nexusRegistry` which is the URL of your Nexus registry.
+The default `registry` key is taken by your fake express server.
+
+A typical `.bowerrc` would be
+```json
+{
+  "directory": "bower_components",
+  "registry": "http://localhost:3000/nexus-bower/",
+  "nexusRegistry": "http://localhost:8081/nexus/content/repositories/my-bower-repository/",
   "resolvers": [
-    "bower-art-resolver"
+    "bower-nexus-resolver"
   ]
 }
 ```
-Edit your ~/.bowerrc and point the registry to Artifactory:
+
+
+## Installation
+`npm install -g bower-nexus-resolver`
+
+In order to use Bower with Nexus you need:
+
+1. [bower-nexus-resolver](https://www.npmjs.com/package/bower-art-resolver): `npm install -g bower-nexus-resolver`
+2. [bower](https://www.npmjs.com/package/bower) - Bower version 1.5.0 and above: `npm install -g bower-nexus-resolver`
+3. [express](https://www.npmjs.com/package/express) - To mimic default repo responses
+
+## Client Configuration
+Edit your ~/.bowerrc and add Nexus Bower Resolver
 ```json
 {
-  "registry": "http://<domain>/artifactory/api/bower/<bower-repo>"
+  "resolvers": [
+    "bower-nexus-resolver"
+  ]
+}
+```
+Edit your ~/.bowerrc and point the registry to Nexus (use a npm respository):
+```json
+{
+  "registry": "http://<domain>/nexus/content/repositories/<npm-repo>"
 }
 ```
 
-For non Anonymous access:
-```json
-{
-  "registry": "http://user:password@<domain>/artifactory/api/bower/<bower-repo>"
-}
-```
-You can also use Artifactory encrypted password 
+## Nexus Configuring 
 
-## Artifactory Configuring 
-
-### Bower remote repository
-1. Create a new remote repository and set Bower to be its Package Type, e.g. bower-remote
-2. Set the Repository Key value, and enter the SCM URL e.g. https://github.com, https://bitbucket.org, http://remote.org/artifactory/api/vcs/vcs-repo, or enter your own custom vcs
-3. In the Bower Settings  section, select GitHub as the Git Provider, and leave the leave the default Registry URL (https://bower.herokuapp.com). 
-5. Finally, click "Save & Finish"
-
-### Bower local/virtual repository
-1. Create a new local/virtual repository and enter a repository key, e.g. bower-local, bower-virtual
-2. Packages -> Check "Enable Bower Support" and enter your bower registry url (by default https://bower.herokuapp.com)
-3. Save
+### NPM remote repository for bower components
+1. Simply create a new npm repository
+2. Run the node.js server that respond JSON
 
 ## Usage
 
-Use the client to install packages from Artifactory, e.g. `bower install bootstrap`
-
-For more information, please refer to Artifactory [wiki documentation](http://www.jfrog.com/confluence/display/RTF/Bower+Repositories) 
+Use the client to install packages from Nexus, e.g. `bower install bootstrap`
