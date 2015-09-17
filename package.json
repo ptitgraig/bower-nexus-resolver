@@ -30,7 +30,7 @@
     "bower-resolver"
   ],
   "author": "Grégory PELLETEY <gregory.pelletey@gmail.com> (http://ptitgraig.github.io)",
-  "license": "Apache License 2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ptitgraig/bower-nexus-resolver/issues"
   },

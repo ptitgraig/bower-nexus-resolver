@@ -2,7 +2,10 @@ node_modules
 bower_components
 .DS_Store
 *~
-npm-debug.log
+
+# Logs
+logs
+*.log
 
 # webstorm files
 .idea
