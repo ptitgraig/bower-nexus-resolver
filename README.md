@@ -79,7 +79,7 @@ Once, done, edit your ~/.bowerrc and point the registry to your brand new server
 Then tell bower the real URL of your Nexus npm repository
 ```json
 {
-  "registry": "http://<domain>/nexus/content/repositories/<npm-repo>"
+  "nexusRegistry": "http://<domain>/nexus/content/repositories/<npm-repo>"
 }
 ```
 
