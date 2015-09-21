@@ -62,7 +62,7 @@ You will need an interface between Nexus and this resolver. Since Nexus doesn't 
 To do so, create a node.js (or whatever else) server that respond a JSON like (example with angular):
 ```json
 {
-  "name":"angular"
+  "name":"angular",
   "url":"nexus://angular/angular"
 }
 ```
