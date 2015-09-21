@@ -57,7 +57,26 @@ Edit your ~/.bowerrc and add Nexus Bower Resolver
   ]
 }
 ```
-Edit your ~/.bowerrc and point the registry to Nexus (use a npm respository):
+
+You will need an interface between Nexus and this resolver. Since Nexus doesn't implement bower registry features, you need to mimic it.
+To do so, create a node.js (or whatever else) server that respond a JSON like (example with angular):
+```json
+{
+  "name":"angular"
+  "url":"nexus://angular/angular"
+}
+```
+to a request like `http://<YOUR_SERVER>/<SOME_REPO_NAME>/packages/<PACKAGE-NAME>`.
+
+
+Once, done, edit your ~/.bowerrc and point the registry to your brand new server
+```json
+{
+  "registry": "`http://<YOUR_SERVER>/<SOME_REPO_NAME>/"
+}
+```
+
+Then tell bower the real URL of your Nexus npm repository
 ```json
 {
   "registry": "http://<domain>/nexus/content/repositories/<npm-repo>"
