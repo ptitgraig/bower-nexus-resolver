@@ -68,6 +68,39 @@ To do so, create a node.js (or whatever else) server that respond a JSON like (e
 ```
 to a request like `http://<YOUR_SERVER>/<SOME_REPO_NAME>/packages/<PACKAGE-NAME>`.
 
+## Minic the bower registry response
+
+This example depends on express to create the server.
+
+```js
+var express = require('express'),
+    http = require('http'),
+
+    config = {
+      port: 8082,
+      context: 'nexus-bower',
+      prefix: 'nexus://'
+    },
+
+    app = express(),
+    server = http.createServer(app).listen( process.env.PORT || config.port);
+
+app.use( express.json() );
+
+// wait for a request as:
+// http://<hostname>/<context>/packages/<package-name>
+// respond a simple JSON
+app.get('/' + config.context + '/packages/:name', function(req, res){
+    res.json({
+        "name": req.params.name,
+        "url": config.prefix + '//' + req.params.name + '/' +req.params.name
+    });
+});
+
+console.log("STARTUP:: Express Bower registry simulator server listening on port::", server.address().port, ", environment:: ", app.settings.env);
+
+```
+
 
 Once, done, edit your ~/.bowerrc and point the registry to your brand new server
 ```json
