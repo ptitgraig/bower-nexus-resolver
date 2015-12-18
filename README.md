@@ -44,8 +44,8 @@ A typical `.bowerrc` would be
 
 In order to use Bower with Nexus you need:
 
-1. [bower-nexus-resolver](https://www.npmjs.com/package/bower-art-resolver): `npm install -g bower-nexus-resolver`
-2. [bower](https://www.npmjs.com/package/bower) - Bower version 1.5.0 and above: `npm install -g bower-nexus-resolver`
+2. [bower](https://www.npmjs.com/package/bower) - Bower version 1.5.0 and above: `npm install -g bower`
+1. [bower-nexus-resolver](https://www.npmjs.com/package/bower-art-resolver): `npm install -g bower-nexus-resolver` (if bower is installed globally)
 3. [express](https://www.npmjs.com/package/express) - To mimic default repo responses
 
 ## Client Configuration
