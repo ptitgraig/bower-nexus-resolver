@@ -1,8 +1,12 @@
 # bower-nexus-resolver
 
+# Important
+
+If you are using NEXUS 3, please consider using the [official bower-nexus3-resolver](https://www.npmjs.com/package/bower-nexus3-resolver)
+
 # Problematic
 
-For now, Nexus does not integrate Bower. Bower 1.5 offers pluggable resolvers which could make it possible.
+Nexus 2.x does not integrate Bower. Bower 1.5 offers pluggable resolvers which could make it possible.
 
 The future Nexus behavior should mimic the default bower registry behavior.
 
