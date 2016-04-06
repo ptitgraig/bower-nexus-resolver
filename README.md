@@ -30,7 +30,7 @@ A typical `.bowerrc` would be
 ```json
 {
   "directory": "bower_components",
-  "registry": "http://localhost:3000/nexus-bower/",
+  "registry": "http://localhost:8082/nexus-bower/",
   "nexusRegistry": "http://localhost:8081/nexus/content/repositories/my-bower-repository/",
   "resolvers": [
     "bower-nexus-resolver"
@@ -45,7 +45,7 @@ A typical `.bowerrc` would be
 In order to use Bower with Nexus you need:
 
 2. [bower](https://www.npmjs.com/package/bower) - Bower version 1.5.0 and above: `npm install -g bower`
-1. [bower-nexus-resolver](https://www.npmjs.com/package/bower-art-resolver): `npm install -g bower-nexus-resolver` (if bower is installed globally)
+1. [bower-nexus-resolver](https://www.npmjs.com/package/bower-nexus-resolver): `npm install -g bower-nexus-resolver` (if bower is installed globally)
 3. [express](https://www.npmjs.com/package/express) - To mimic default repo responses
 
 ## Client Configuration
@@ -74,6 +74,7 @@ This example depends on express to create the server.
 
 ```js
 var express = require('express'),
+    json = require('express-json'),
     http = require('http'),
 
     config = {
@@ -85,20 +86,19 @@ var express = require('express'),
     app = express(),
     server = http.createServer(app).listen( process.env.PORT || config.port);
 
-app.use( express.json() );
+app.use( json() );
 
-// wait for a request as:
-// http://<hostname>/<context>/packages/<package-name>
-// respond a simple JSON
+// wait for a request as: 
+// http://<hostname>/<context>/packages/<package-name> 
+// respond a simple JSON 
 app.get('/' + config.context + '/packages/:name', function(req, res){
     res.json({
         "name": req.params.name,
-        "url": config.prefix + '//' + req.params.name + '/' +req.params.name
+        "url": config.prefix + req.params.name + '/' +req.params.name
     });
 });
 
 console.log("STARTUP:: Express Bower registry simulator server listening on port::", server.address().port, ", environment:: ", app.settings.env);
-
 ```
 
 
