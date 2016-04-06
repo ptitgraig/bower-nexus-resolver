@@ -1,6 +1,6 @@
 {
   "name": "bower-nexus-resolver",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Almost a Nexus Bower resolver",
   "main": "./lib/index.js",
   "dependencies": {
